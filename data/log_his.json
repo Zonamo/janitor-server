@@ -1,0 +1,383 @@
+{
+  "1697036528": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "update",
+    "sites": [
+      "nl"
+    ],
+    "cars": {
+      "toyota": [
+        "aygo-x"
+      ]
+    },
+    "log": [],
+    "deltas": {
+      "nl": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      }
+    }
+  },
+  "1697037547": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl"
+    ],
+    "cars": {
+      "kia": [
+        "venga"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697037602": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl"
+    ],
+    "cars": {
+      "kia": [
+        "venga"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697037649": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697037731": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697037861": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697038902": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697040631": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697043385": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697053585": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697073318": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697073565": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697109120": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  },
+  "1697109176": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "update",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {
+      "nl": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      },
+      "de": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      },
+      "es": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      }
+    },
+    "log": []
+  },
+  "1697109392": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "update",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "peugeot": [
+        "208",
+        "2008"
+      ],
+      "kia": [
+        "picanto",
+        "niro",
+        "ceed-%2F-cee'd",
+        "ceed-sw-%2F-cee'd-sw",
+        "sportage"
+      ],
+      "volvo": [
+        "xc40"
+      ],
+      "opel": [
+        "corsa"
+      ],
+      "volkswagen": [
+        "polo",
+        "t-roc"
+      ],
+      "toyota": [
+        "yaris-cross",
+        "aygo-x",
+        "yaris"
+      ],
+      "renault": [
+        "captur",
+        "clio"
+      ],
+      "fiat": [
+        "500"
+      ],
+      "hyundai": [
+        "tucson",
+        "i10"
+      ],
+      "ford": [
+        "focus"
+      ],
+      "nissan": [
+        "qashqai"
+      ]
+    },
+    "deltas": {
+      "nl": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      },
+      "de": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      },
+      "es": {
+        "prepare_batches": 0,
+        "get_all_cars": 0,
+        "get_all_info": 0,
+        "handle_errors": 0
+      }
+    },
+    "log": []
+  },
+  "1697113792": {
+    "settings": [
+      50,
+      10000
+    ],
+    "command": "state",
+    "sites": [
+      "nl",
+      "de",
+      "es"
+    ],
+    "cars": {
+      "kia": [
+        "picanto"
+      ]
+    },
+    "deltas": {},
+    "log": []
+  }
+}
