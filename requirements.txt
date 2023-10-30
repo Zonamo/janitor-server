@@ -10,7 +10,7 @@ attrs==22.2.0
 beautifulsoup4==4.11.2
 bidict==0.22.1
 cachelib==0.10.2
-cachetools==3.1.1
+cachetools==4.2.2
 chardet
 certifi==2022.12.7
 charset-normalizer==3.0.1
