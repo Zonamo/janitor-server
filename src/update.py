@@ -1,5 +1,3 @@
-#!/Users/barungz/Scripts/.Scrape/bin/python3
-
 import asyncio, json, requests, sys, os
 from datetime import datetime
 from loguru import logger
@@ -21,7 +19,8 @@ logger.add(sys.stderr, level="ERROR")
 with open('../data/networking.txt', 'r') as f:
     N_SEMA = int(f.readline().strip())
     TCP_LIMIT = int(f.readline().strip())
-    API_KEY = f.readline().strip()
+
+API_KEY = os.getenv('API_KEY')
 
 
 def time_perform(function, *args, is_async=False, site=None):

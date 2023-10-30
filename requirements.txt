@@ -11,7 +11,7 @@ beautifulsoup4==4.11.2
 bidict==0.22.1
 cachelib==0.10.2
 cachetools==3.1.1
-cchardet==2.1.7
+chardet
 certifi==2022.12.7
 charset-normalizer==3.0.1
 click==8.1.3
@@ -32,7 +32,7 @@ fonttools==4.42.1
 frozenlist==1.3.3
 google-api-core==2.11.1
 google-api-python-client==1.7.2
-google-auth==1.8.0
+google-auth
 google-auth-httplib2==0.0.3
 google-auth-oauthlib==0.4.1
 googleapis-common-protos==1.60.0

@@ -1,4 +1,4 @@
-import os, sys
+import os
 from loguru import logger
 from log_process import log_instance
 
