@@ -10,11 +10,11 @@ def send_notification(message):
     bot.sendMessage(chat_id=ID, text=message)
 
 def send_messages(messages):
-    send_notification("+"*68 + "\n" + f"{len(messages)} NEW OPTIONS")
+    send_notification("+"*22 + "\n" + f"{len(messages)} NEW OPTIONS")
     for message in messages:
         send_notification(message)
         time.sleep(3.1)  
-    send_notification("+"*68 + "\n")
+    send_notification("+"*22 + "\n")
 
 
 def send_file(file_path):

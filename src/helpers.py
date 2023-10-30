@@ -881,7 +881,7 @@ def compare_cars(db, car_list):
             seller = f"SELLER: {car.get('seller', 'NVA')}\n"
 
             car_ids.append(car['id'])
-            msg = "\n"*4 + "="*68 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
+            msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
             messages.append(msg)
         
         except Exception:
