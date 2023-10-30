@@ -9,6 +9,10 @@ from database import db
 from helpers import store, compare_cars, update_rows
 from log_process import log_instance, get_origin
 
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 api = Api(app)
