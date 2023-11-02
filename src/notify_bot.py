@@ -22,14 +22,14 @@ def send_messages(messages):
         for message in new:
             send_notification(message, ID_NEW)
             time.sleep(3.1)  
-        send_notification("+"*22 + "\n")
+        send_notification("+"*22 + "\n", ID_NEW)
 
     if zombie:
         send_notification("+"*22 + "\n" + f"{len(zombie)} OPTIONS", ID_ZOMBIE)
         for message in zombie:
             send_notification(message, ID_ZOMBIE)
             time.sleep(3.1)  
-        send_notification("+"*22 + "\n")
+        send_notification("+"*22 + "\n", ID_ZOMBIE)
 
 
 def send_file(file_path):
