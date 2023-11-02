@@ -878,16 +878,14 @@ def compare_cars(db, car_list):
 
             if car.get('zombie'):
                 zombie = "CAR AGE: ZOMBIE\n"
-                send_kind = 0
             else:
                 zombie = "CAR AGE: REAL NEW\n"
-                send_kind = 1
 
             seller = f"SELLER: {car.get('seller', 'NVA')}\n"
 
             car_ids.append(car['id'])
             msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
-            messages.append([msg, send_kind])
+            messages.append(msg)
         
         except Exception:
             logger.exception(f"Failed compare for {car['id']}")

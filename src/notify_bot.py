@@ -12,16 +12,12 @@ def send_notification(message, id):
     bot.sendMessage(chat_id=id, text=message)
 
 def send_messages(messages):
-    logger.info(f'{len(messages)} total to send')
-    logger.info("\n\n")
-    logger.info(f"{messages}")
     new, zombie = [], []
     for message in messages:
-        logger.info(message[1])
-        if message[1] == 0:
-            zombie.append(message[0])
-        if message[1] == 1:
-            new.append(message[0])
+        if 'ZOMBIE' in message:
+            zombie.append(message)
+        if 'REAL NEW' in message:
+            new.append(message)
     if new:
         logger.info(f'{len(new)} new to send')
         send_notification("+"*22 + "\n" + f"{len(new)} NEW OPTIONS", ID_NEW)
@@ -29,7 +25,6 @@ def send_messages(messages):
             send_notification(message, ID_NEW)
             time.sleep(3.1)  
         send_notification("+"*22 + "\n", ID_NEW)
-
     if zombie:
         logger.info(f'{len(zombie)} zombie to send')
         send_notification("+"*22 + "\n" + f"{len(zombie)} OPTIONS", ID_ZOMBIE)
