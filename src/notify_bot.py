@@ -11,15 +11,25 @@ def send_notification(message, id):
     bot.sendMessage(chat_id=id, text=message)
 
 def send_messages(messages):
-    send_notification("+"*22 + "\n" + f"{len(messages)} NEW OPTIONS")
+    new, zombie = [], []
     for message in messages:
         if message[1] == 0:
-            id = ID_ZOMBIE
+            zombie.append(message[0])
         if message[1] == 1:
-            id = ID_NEW
-        send_notification(message[0], id)
-        time.sleep(3.1)  
-    send_notification("+"*22 + "\n")
+            new.append(message[0])
+    if new:
+        send_notification("+"*22 + "\n" + f"{len(new)} NEW OPTIONS", ID_NEW)
+        for message in new:
+            send_notification(message, ID_NEW)
+            time.sleep(3.1)  
+        send_notification("+"*22 + "\n")
+
+    if zombie:
+        send_notification("+"*22 + "\n" + f"{len(zombie)} OPTIONS", ID_ZOMBIE)
+        for message in zombie:
+            send_notification(message, ID_ZOMBIE)
+            time.sleep(3.1)  
+        send_notification("+"*22 + "\n")
 
 
 def send_file(file_path):
@@ -31,4 +41,4 @@ def send_report(message):
 
 
 if __name__ == "__main__":
-    send_report('it is known')
+    send_messages([('peter mogelijk jood', 0), ('peter extreem jood', 1)])
