@@ -391,7 +391,9 @@ class ReferenceCar():
             Car.power != None,
             Car.km != None,
             Car.registration != None,
-            and_(Car.price != car['price'], Car.km != car['km'], Car.description != car['description'])
+            and_(Car.price != car['price'], Car.km != car['km'], Car.description != car['description']),
+            or_(Car.doors == car['doors'], Car.doors == car.get('doors', -10) - 1, Car.doors == car.get('doors', -10) + 1,
+                Car.doors == None, car['doors'] == None)
         ]
 
         self.similar_conditions = [
@@ -875,14 +877,16 @@ def compare_cars(db, car_list):
 
             if car.get('zombie'):
                 zombie = "CAR AGE: ZOMBIE\n"
+                send_kind = 0
             else:
                 zombie = "CAR AGE: REAL NEW\n"
+                send_kind = 1
 
             seller = f"SELLER: {car.get('seller', 'NVA')}\n"
 
             car_ids.append(car['id'])
             msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
-            messages.append(msg)
+            messages.append((msg, send_kind))
         
         except Exception:
             logger.exception(f"Failed compare for {car['id']}")
