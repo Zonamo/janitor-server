@@ -8,6 +8,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from models import Car
 from log_process import log_instance, get_origin
+from notify_bot import send_messages
 
 
 def lookup_cars(car_list: list):
@@ -886,7 +887,7 @@ def compare_cars(db, car_list):
 
             car_ids.append(car['id'])
             msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
-            messages.append((msg, send_kind))
+            messages.append([msg, send_kind])
         
         except Exception:
             logger.exception(f"Failed compare for {car['id']}")
@@ -895,6 +896,6 @@ def compare_cars(db, car_list):
     log_instance.add_log(get_origin(), 'INFO', f"from {len(car_list)} cars {check_total} were checked")
     log_instance.add_log(get_origin(), 'INFO', f"blocks: check_1={check_1} check_2={check_2} check_3={check_3} check_4={check_4}")
     for car_id in car_ids:
-        log_instance.add_log(get_origin(), 'INFO', f"{car_id}")
+       log_instance.add_log(get_origin(), 'INFO', f"{car_id}")
 
     return messages

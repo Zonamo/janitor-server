@@ -217,8 +217,11 @@ if __name__ == "__main__":
         car_list = update_cars(cars, sites)
         if car_list:
             messages = time_perform(request_compare, car_list, site='all')
+            logger.info(f"Got {len(messages)} messages")
             if messages:
+                logger.info(f"Sending..")
                 send_messages(messages)
+                logger.info(f"Sent messages")
 
     if command == 'test':
         cars = json.load(open('../data/tracked_test.json'))
