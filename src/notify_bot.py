@@ -13,8 +13,11 @@ def send_notification(message, id):
 
 def send_messages(messages):
     logger.info(f'{len(messages)} total to send')
+    logger.info("\n\n")
+    logger.info(f"{messages}")
     new, zombie = [], []
     for message in messages:
+        logger.info(message[1])
         if message[1] == 0:
             zombie.append(message[0])
         if message[1] == 1:
