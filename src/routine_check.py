@@ -8,12 +8,12 @@ os.chdir(script_dir)
 
 
 def check_error():
-    with open('../log/routine/error.log', 'r') as f:
+    with open('../log/update/error.log', 'r') as f:
         first_line = f.readline().strip()
         if first_line != "":
             send_report("FATAL:")
-            send_file("../log/routine/error.log")
-            with open('../log/routine/error.log', 'w') as f:
+            send_file("../log/update/error.log")
+            with open('../log/update/error.log', 'w') as f:
                 f.write("")
 
 

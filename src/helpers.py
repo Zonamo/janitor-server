@@ -392,9 +392,7 @@ class ReferenceCar():
             Car.power != None,
             Car.km != None,
             Car.registration != None,
-            and_(Car.price != car['price'], Car.km != car['km'], Car.description != car['description']),
-            or_(Car.doors == car['doors'], Car.doors == car.get('doors', -10) - 1, Car.doors == car.get('doors', -10) + 1,
-                Car.doors == None, car['doors'] == None)
+            and_(Car.price != car['price'], Car.km != car['km'], Car.description != car['description'])
         ]
 
         self.similar_conditions = [
@@ -402,7 +400,11 @@ class ReferenceCar():
             Car.km < car['km'] + self.km_range,
             Car.power >= car['power'] - self.power_range,
             Car.power <= car['power'] + self.power_range,
-            func.right(Car.registration, 4) == car['registration'][3:]
+            func.right(Car.registration, 4) == car['registration'][3:],
+            or_(Car.doors == car.get('doors'), Car.doors == car.get('doors', -10) - 1, Car.doors == car.get('doors', -10) + 1,
+                Car.doors == None, car.get('doors') == None),
+            or_(Car.gear == car.get('gear'), Car.gear == None, car.get('gear') == None)
+
         ]
 
         self.base_conditions = [
