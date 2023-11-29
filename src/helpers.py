@@ -404,7 +404,6 @@ class ReferenceCar():
             or_(Car.doors == car.get('doors'), Car.doors == car.get('doors', -10) - 1, Car.doors == car.get('doors', -10) + 1,
                 Car.doors == None, car.get('doors') == None),
             or_(Car.gear == car.get('gear'), Car.gear == None, car.get('gear') == None)
-
         ]
 
         self.base_conditions = [
@@ -506,10 +505,10 @@ def is_eligable(car):
     if car['country'] == 'nl' or car['price'] > 12000:
         return False
 
-    if car['km'] == None or car['km'] >= 68000 or car['km'] <= 1999:
+    if car['km'] == None or car['km'] >= 100000 or car['km'] <= 1999:
         return False
 
-    if int(car['registration'][3:]) < 2012:
+    if int(car['registration'][3:]) < 2014:
         return False
 
     if car.get('power') == None:
