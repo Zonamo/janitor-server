@@ -201,7 +201,7 @@ if __name__ == "__main__":
     else:
         command = sys.argv[1]
         cars = json.load(open('../data/tracked_cars.json'))
-        sites = ['nl', 'de', 'es']
+        sites = json.load(open('../data/sites.json'))
         msg = f"Start {command}"
         logger.info(msg)
         start = datetime.now()

@@ -2,6 +2,7 @@ import asyncio, aiohttp, certifi, ssl
 from bs4 import BeautifulSoup
 from utils import get_last_page, extract_waggies, extract_info
 
+TEST = 0
 
 async def get_soup(session, url, ssl_context, limit, skip_urlcheck=None):
     async with limit:

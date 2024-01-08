@@ -313,7 +313,7 @@ def new_urls(site, urls):
     color_scheme = ["&bcol=1", "&bcol=2", "&bcol=3", "&bcol=4", "&bcol=5", "&bcol=6", "&bcol=7", "&bcol=10", "&bcol=11", "&bcol=12", "&bcol=13", "&bcol=14", "&bcol=15", "&bcol=16"]
     for url in urls:
         if url['class'] == 1:
-            for year in range (2006, 2024):
+            for year in range (2006, 2025):
                 if site == 'de':
                     link = f"https://www.autoscout24.de/lst/{url['brand']}/{url['model']}/ot_gebraucht?atype=C&cy=D&damaged_listing=exclude&desc=0&fregfrom={year}&fregto={year}&ocs_listing=exclude&powertype=kw&sort=price&ustate=N%2CU"
                 if site == 'nl':
@@ -346,37 +346,26 @@ def extract_waggies(soup, site, brand, model):
     s = datetime.datetime.now()
     wag_list = []
     for waggie in soup.find_all("article"):
-
         try:
-            if site == 'de':
-                link = waggie.find("a", {"class": "ListItem_title__znV2I Link_link__pjU1l"})
-                if link == None:
-                    link = waggie.find("a", {"class": "ListItem_title__znV2I ListItem_title_new_design__lYiAv Link_link__pjU1l"})
-                link = f"https://www.autoscout24.{site}" + link["href"]
-
-            if site == 'nl':
-                link = f"https://www.autoscout24.{site}" + waggie.find("a", {"class": "ListItem_title__znV2I ListItem_title_new_design__lYiAv Link_link__pjU1l"})['href']
-
-            if site == 'es':
-                link = f"https://www.autoscout24.{site}" + waggie.find("a", {"class": "ListItem_title__znV2I ListItem_title_new_design__lYiAv Link_link__pjU1l"})['href']
-
+            link = f"https://www.autoscout24.{site}" + waggie.find("a", {"class": "ListItem_title__ndA4s ListItem_title_new_design__QIU2b Link_link__Ajn7I"})['href']
 
         except Exception as e:
             msg = f"Could not extract LINK from soup: {e}\n{waggie}\n{traceback.format_exc()}"
             logger.info(msg)
             log_instance.add_log(get_origin(), 'ERROR', f"{site.upper()}: " + msg) 
             return wag_list, 0
-        
+
         if 'smyle' in link:
             continue
 
         try:
-            wag_id = waggie['data-guid']
+            wag_id = waggie['id']
         except Exception as e:
             msg = f"Could not extract ID from soup: {e}\n{waggie}\n{traceback.format_exc()}"
             logger.info(msg)
             log_instance.add_log(get_origin(), 'ERROR', f"{site.upper()}: " + msg) 
             return wag_list, 0
+
 
         try:
             title = waggie.find("h2").text
@@ -387,26 +376,25 @@ def extract_waggies(soup, site, brand, model):
             return wag_list, 0
 
         try:
-            price = fix_price(waggie.find("p", {"class": "Price_price__WZayw"}).text)
+            price = fix_price(waggie.find("p", {"class": "Price_price__APlgs PriceAndSeals_current_price__ykUpx"}).text)
 
         except Exception as e:
             # = Discount
             try:
-                price = fix_price(waggie.find("span", {"class": "SuperDeal_highlightContainer__EPrZr"}).text)
+                price = fix_price(waggie.find("span", {"class": "SuperDeal_highlightContainer__R8edU"}).text)
 
             except Exception:
                 # = Lease car
                 continue
 
         try:
-            description = waggie.find("span", {"class": "ListItem_version__jNjur"}).text
+            description = waggie.find("span", {"class": "ListItem_version__5EWfi"}).text
         except Exception as e:
             msg = f"Could not extract DESCRIPTION from soup: {e}\n{waggie}\n{traceback.format_exc()}"
             logger.info(msg)
             log_instance.add_log(get_origin(), 'ERROR', f"{site.upper()}: " + msg) 
             return wag_list, 0
-
-
+          
         wag_list.append({'id': wag_id, 'country': site, 'brand': brand, 'model': model, 'title': title, 'description': description, 'price': price, 'link': link, 'html': str(waggie)})
 
     e = datetime.datetime.now()
@@ -469,15 +457,15 @@ def extract_info(soup, site, url):
 
     try:
 
-        parent_elements = soup.find_all('div', {'class': 'VehicleOverview_itemContainer__Ol37r'})
+        parent_elements = soup.find_all('div', {'class': 'VehicleOverview_itemContainer__XSLWi'})
         for parent_element in parent_elements:
-            h_list.extend([dt.text for dt in parent_element.find_all('div', {'class': 'VehicleOverview_itemTitle__W0qyv'})])
-            i_list.extend([dd.get_text(strip=True) for dd in parent_element.find_all('div', {'class': 'VehicleOverview_itemText__V1yKT'})])
+            h_list.extend([dt.text for dt in parent_element.find_all('div', {'class': 'VehicleOverview_itemTitle__S2_lb'})])
+            i_list.extend([dd.get_text(strip=True) for dd in parent_element.find_all('div', {'class': 'VehicleOverview_itemText__AI4dA'})])
 
-        lord_elements = soup.find_all('div', {'class': 'DetailsSection_detailsSection__2cTru'})
+        lord_elements = soup.find_all('div', {'class': 'DetailsSection_detailsSection__FJZXR'})
         for lord_element in lord_elements:
             
-            block = lord_element.find('h2', {'class': 'DetailsSectionTitle_text__gsMln'})
+            block = lord_element.find('h2', {'class': 'DetailsSectionTitle_text__KAuxN'})
             if block == None:
                 continue
 
@@ -494,18 +482,18 @@ def extract_info(soup, site, url):
                 if block.text not in ['Datos básicos', 'Historial del vehículo', 'Datos Técnicos', 'Consumo de energía', 'Color y Tapicería']:
                     continue
 
-            parent_elements = lord_element.find_all('dl', {'class': 'DataGrid_defaultDlStyle__969Qm'})
+            parent_elements = lord_element.find_all('dl', {'class': 'DataGrid_defaultDlStyle__xlLi_'})
             for parent_element in parent_elements:
                 h_list.extend([dt.text.strip() for dt in parent_element.find_all('dt')])
-                i_list.extend([dd.find('p').get_text(strip=True) if dd.find('p') else dd.get_text(strip=True) for dd in parent_element.find_all('dd', {'class': 'DataGrid_defaultDdStyle__29SKf DataGrid_fontBold__r__dO'})])
+                i_list.extend([dd.find('p').get_text(strip=True) if dd.find('p') else dd.get_text(strip=True) for dd in parent_element.find_all('dd', {'class': 'DataGrid_defaultDdStyle__3IYpG DataGrid_fontBold__RqU01'})])
 
-        name_seller = soup.find('div', {'class': 'RatingsAndCompanyName_dealer__HTXk_'})
+        name_seller = soup.find('div', {'class': 'RatingsAndCompanyName_dealer__EaECM'})
         if name_seller != None:
             name_seller = name_seller.find('div')
             if name_seller != None:
                 wag['name_seller'] = name_seller.text
 
-        location = soup.find('a', {'class': 'scr-link Department_link__6hDp5'})
+        location = soup.find('a', {'class': 'scr-link Department_link__xMUEe'})
         if location != None:
             wag['location'] = location.text
             
@@ -551,7 +539,7 @@ def extract_info(soup, site, url):
 
 def get_last_page(soup, url):
     s = datetime.datetime.now()
-    block = soup.find("div", {"class": "ListHeader_top__jY34N"})
+    block = soup.find("div", {"class": "ListHeader_top__N6YWA"})
     amount = fix_price(block.find("span").text)
     if amount > 400:
         e = datetime.datetime.now()
