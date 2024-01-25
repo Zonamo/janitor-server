@@ -10,6 +10,11 @@ from models import Car
 from log_process import log_instance, get_origin
 
 
+def lookup_cars(car_list: list):
+    ids_to_check = [car.get('id') for car in car_list]
+    return Car.query.filter(Car.id.in_(ids_to_check)).all()
+
+
 def lookup_sold_cars(country, selected_cars):
     conditions = [(Car.country==country) & (Car.brand==brand) & (Car.model==model) & (Car.date_sold!=None) for brand in selected_cars for model in selected_cars[brand]]
     return Car.query.filter(or_(*conditions)).all()
@@ -32,6 +37,27 @@ def store(db, car_list, selected_cars, op):
         logger.info(f'op = new, {len(car_list)} items')
         delta = store_new(db, car_list)
         return [delta]
+
+
+def update_rows(db, car_list):
+    try:
+        query = (
+            update(Car).
+            where(Car.id.in_([car['id'] for car in car_list])).
+            values(registration="NVA")
+        )
+
+        db.session.execute(query)
+        db.session.commit()
+    except SQLAlchemyError as e:
+        logger.info(f"SQLError updating rows: {e}")
+        db.session.rollback()
+        return -1
+    except Exception as e:
+        logger.info(f"Error updating rows: {e}")
+        db.session.rollback()
+        return -1
+    return 0
 
 
 def store_new(db, car_list):
