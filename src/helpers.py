@@ -8,12 +8,6 @@ from sqlalchemy.dialects.postgresql import insert
 
 from models import Car
 from log_process import log_instance, get_origin
-from notify_bot import send_messages
-
-
-def lookup_cars(car_list: list):
-    ids_to_check = [car.get('id') for car in car_list]
-    return Car.query.filter(Car.id.in_(ids_to_check)).all()
 
 
 def lookup_sold_cars(country, selected_cars):
@@ -38,27 +32,6 @@ def store(db, car_list, selected_cars, op):
         logger.info(f'op = new, {len(car_list)} items')
         delta = store_new(db, car_list)
         return [delta]
-
-
-def update_rows(db, car_list):
-    try:
-        query = (
-            update(Car).
-            where(Car.id.in_([car['id'] for car in car_list])).
-            values(registration="NVA")
-        )
-
-        db.session.execute(query)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        logger.info(f"SQLError updating rows: {e}")
-        db.session.rollback()
-        return -1
-    except Exception as e:
-        logger.info(f"Error updating rows: {e}")
-        db.session.rollback()
-        return -1
-    return 0
 
 
 def store_new(db, car_list):
@@ -153,28 +126,6 @@ def update_initial(db, car_list, selected_cars):
 
     # Get timestamp now (is ~3m too much for some reason)
     timestamp_now = int(time.time())
-
-    # Change every row of date_sold to timestamp_now only for the same brand-model pairs and if date_sold == None
-    try:
-        conditions = [(Car.country==country) & (Car.brand==brand) & (Car.model==model) & (Car.date_sold==None) for brand in selected_cars for model in selected_cars[brand]]
-        query = (
-            update(Car)
-            .where(or_(*conditions))
-            .values(date_sold=timestamp_now)
-        )
-        db.session.execute(query)
-        db.session.commit()
-    except SQLAlchemyError as e:
-        logger.info(f"SQLError updating Car-date_sold: {e}")
-        db.session.rollback()
-        return -1, 0, 0, 0
-    except Exception as e:
-        logger.info(f"Error updating Car-date_sold: {e}")
-        return -1, 0, 0, 0
-
-
-    # Get timestamp now (is ~3m too much for some reason)
-    timestamp_now = int(time.time())
     unique_list, zombies, duplicates = [], [], 0
     ids_done = set()
     non_nullable_fields = ['id', 'url', 'description', 
@@ -183,13 +134,11 @@ def update_initial(db, car_list, selected_cars):
 
     for car in car_list:
         id = car.get('id')
-
         if id not in ids_done:
-
             if id in sold_cars:
                 car['zombie'] = 1
                 zombies.append(car)
-                
+
             else:
                 car_data = {
                     'id': car.get('id'), 'url': car.get('link'),
@@ -199,20 +148,29 @@ def update_initial(db, car_list, selected_cars):
                     'date_listing': timestamp_now, 'date_sold': None, 
                     'registration': 'UPDATE', 'km': 69
                 }
-
                 if any(car_data.get(field) is None for field in non_nullable_fields):
                     logger.info(f"NULL VALUE for: {id}\n{car_data}")
                     continue
-
                 unique_list.append(car_data)
 
             ids_done.add(id)
-
         else:
             duplicates += 1
 
-    # Insert every car with date_sold = None, if conflicting (id): just update date_sold to None
     try:
+        db.session.begin()
+
+        # Change every row of date_sold to timestamp_now only for the same brand-model pairs and if date_sold == None
+        conditions = [(Car.country==country) & (Car.brand==brand) & (Car.model==model) & (Car.date_sold==None) for brand in selected_cars for model in selected_cars[brand]]
+        query = (
+            update(Car)
+            .where(or_(*conditions))
+            .values(date_sold=timestamp_now)
+        )
+        db.session.execute(query)
+
+
+        # Insert every car with date_sold = None, if conflicting (id): just update date_sold to None
         query = insert(Car).values(unique_list).on_conflict_do_update(
             constraint='cars_pkey',
             set_={
@@ -223,15 +181,16 @@ def update_initial(db, car_list, selected_cars):
                 'price': insert(Car).excluded.price
             }
         )
-
         db.session.execute(query)
+
         db.session.commit()
+
     except SQLAlchemyError as e:
-        logger.info(f"SQLError inserting cars: {e}")
+        logger.info(f"SQLAlchemyError: {e}")
         db.session.rollback()
         return -1, 0, 0, 0
     except Exception as e:
-        logger.info(f"Error inserting cars: {e}")
+        logger.info(f"General Error: {e}")
         db.session.rollback()
         return -1, 0, 0, 0
 
@@ -868,14 +827,15 @@ def compare_cars(db, car_list):
             else:
                 bpm = f"BPM: {bpm}\n"
 
-            if car.get('location'):
-                distance = get_distance(car['location'])
-                if distance == None:
-                    distance = ""
-                else:
-                    distance = f"Distance: {distance}\n"
-            else:
-                distance = ""
+            location = car.get('location', "")
+            # if car.get('location'):
+                # distance = get_distance(car['location'])
+                # if distance == None:
+                #     distance = ""
+                # else:
+                #     distance = f"Distance: {distance}\n"
+            # else:
+                # distance = ""
 
             if car.get('zombie'):
                 zombie = "CAR AGE: ZOMBIE\n"
@@ -885,7 +845,7 @@ def compare_cars(db, car_list):
             seller = f"SELLER: {car.get('seller', 'NVA')}\n"
 
             car_ids.append(car['id'])
-            msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + distance + "\n" + analytics
+            msg = "\n"*4 + "="*22 + "\n" f"{car['link']}\n" + car_info + zombie + seller + bpm + location + "\n" + analytics
             messages.append(msg)
         
         except Exception:
