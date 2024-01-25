@@ -184,7 +184,6 @@ def update_initial(db, car_list, selected_cars):
             duplicates += 1
 
     try:
-        db.session.begin()
 
         # Change every row of date_sold to timestamp_now only for the same brand-model pairs and if date_sold == None
         conditions = [(Car.country==country) & (Car.brand==brand) & (Car.model==model) & (Car.date_sold==None) for brand in selected_cars for model in selected_cars[brand]]
